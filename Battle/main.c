@@ -230,9 +230,9 @@ void Map(){
         printf(" - Сражаться с монстрами\n\n\n\n");
         printf(" - Выйти из игры\n");
         printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-
+        map_but = getch();
         while(map_but != 'e'){
-            map_but = getch();
+
             if(map_but == 's')
                 but_pos += 1;
             else if(map_but == 'w')
@@ -282,6 +282,7 @@ void Map(){
                     break;
             }
             map_but = getch();
+
         }
 
 
@@ -300,7 +301,8 @@ void Map(){
                 return;
                 break;
         }
-    }while(map_but != '');
+        but_pos = 1;
+    }while(but_pos != 4);
 }
 /////////////////////////////////////////////////////////////////////////////////////////
 void Start(int HP, int Dmg, int Stamina, int Potion)
