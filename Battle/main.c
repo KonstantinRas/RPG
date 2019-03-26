@@ -3,7 +3,7 @@
 #include <locale.h>
 #include <time.h>
 #include <windows.h>
-
+//ALL
 
 int Start();
 int Hero_choose();
