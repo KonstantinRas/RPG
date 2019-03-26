@@ -2,11 +2,12 @@
 #include <stdlib.h>
 #include <locale.h>
 #include <time.h>
-///Hyc yosi
+#include <windows.h>
 
-void Start();
+
+int Start();
 int Hero_choose();
-int Battle(int HP, int Dmg, int Stamina, int Enemy_HP, int Enemy_Dmg, int Enemy_Stamina);
+int Battle(int *HP_S, int *Dmg_S, int *Stamina_S, int Enemy_HP, int Enemy_Dmg, int Enemy_Stamina);
 int Menu();
 void Map();
 int Inventory();
@@ -195,9 +196,10 @@ int Menu(){
 }
 /////////////////////////////////////////////////////////////////////////////////////////
 void Map(){
+    int Dead;
     char map_but;
     int HP, Dmg, Stamina, Potion;
-    int choose = 0, but_pos;
+    int choose = 0, but_pos = 1;
     system("cls");
     printf("/***********************************Поехали************************************\\ \n");
     printf("    Выбери своего персонажа:\n");
@@ -224,11 +226,12 @@ void Map(){
     }
 
     do{
+
         printf("                           ВЫ НАХОДИТЕСЬ В ГОРОДЕ                   \n");
         printf("Вы можете отправиться:\n\n");
         printf(" - Магазин  <--\n");
         printf(" - Трактир\n");
-        printf(" - Сражаться с монстрами\n\n\n\n");
+        printf(" - Сражаться с монстрами\n\n\n");
         printf(" - Выйти из игры\n");
         printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
         map_but = getch();
@@ -251,7 +254,7 @@ void Map(){
                     printf("Вы можете отправиться:\n\n");
                     printf(" - Магазин  <--\n");
                     printf(" - Трактир \n");
-                    printf(" - Сражаться с монстрами\n\n\n\n");
+                    printf(" - Сражаться с монстрами\n\n\n");
                     printf(" - Выйти из игры\n");
                     break;
                 case 2:
@@ -260,7 +263,7 @@ void Map(){
                     printf("Вы можете отправиться:\n\n");
                     printf(" - Магазин \n");
                     printf(" - Трактир  <--\n");
-                    printf(" - Сражаться с монстрами\n\n\n\n");
+                    printf(" - Сражаться с монстрами\n\n\n");
                     printf(" - Выйти из игры\n");
                     break;
                 case 3:
@@ -269,7 +272,7 @@ void Map(){
                     printf("Вы можете отправиться:\n\n");
                     printf(" - Магазин \n");
                     printf(" - Трактир\n");
-                    printf(" - Сражаться с монстрами  <--\n\n\n\n");
+                    printf(" - Сражаться с монстрами  <--\n\n\n");
                     printf(" - Выйти из игры\n");
                     break;
                 case 4:
@@ -278,7 +281,7 @@ void Map(){
                     printf("Вы можете отправиться:\n\n");
                     printf(" - Магазин \n");
                     printf(" - Трактир\n");
-                    printf(" - Сражаться с монстрами\n\n\n\n");
+                    printf(" - Сражаться с монстрами\n\n\n");
                     printf(" - Выйти из игры  <--\n");
                     break;
             }
@@ -296,19 +299,29 @@ void Map(){
                //Trakt();  //Сделать трактир с азартными играми
                 break;
             case 3:
-                Start(HP,Dmg, Stamina,Potion);
+                Dead = Start(HP,Dmg, Stamina,Potion);
                 break;
             case 4:
                 return;
                 break;
         }
         but_pos = 1;
+        if(Dead == -5){
+            system("cls");
+            printf("\n\n\n\n\n\n\n\n\n//////////////////////////////// LOL U DIED ////////////////////////////////////\n");
+            Sleep (7000);
+        }
     }while(but_pos != 4);
 }
 /////////////////////////////////////////////////////////////////////////////////////////
-void Start(int HP, int Dmg, int Stamina, int Potion)
+int Start(int HP, int Dmg, int Stamina, int Potion)
 {
     int Enemy_HP, Enemy_Dmg, Enemy_Stamina, back;
+    int HP_S, Stamina_S,Dmg_S;
+
+        HP_S = HP;
+        Stamina_S = Stamina;
+        Dmg_S = Dmg;
 
 
     srand(time(0));
@@ -339,16 +352,15 @@ void Start(int HP, int Dmg, int Stamina, int Potion)
             Enemy_Stamina = 10;
         }
 
-        int *hp = HP,
-        *dmg = Dmg,
-        *stam = Stamina;
 
 
-        back = Battle(HP, Dmg, Stamina, Enemy_HP, Enemy_Dmg, Enemy_Stamina);
+
+        back = Battle(&HP_S, &Dmg_S, &Stamina_S, Enemy_HP, Enemy_Dmg, Enemy_Stamina);
         if(back == 1)
             break;
 
-    }while( HP > 0);
+    }while(HP_S > 0);
+    return -5;
 }
 /////////////////////////////////////////////////////////////////////////////////////////
 int Hero_choose(){
@@ -387,8 +399,9 @@ int Hero_choose(){
     return Potion_chance;
 }**/
 /////////////////////////////////////////////////////////////////////////////////////////
-int Battle(int HP, int Dmg, int Stamina, int Enemy_HP, int Enemy_Dmg, int Enemy_Stamina)
+int Battle(int *HP_S, int *Dmg_S, int *Stamina_S, int Enemy_HP, int Enemy_Dmg, int Enemy_Stamina)
 {
+
     int Potion, exit, mp;
     exit = 0;
     char button;
@@ -399,10 +412,10 @@ int Battle(int HP, int Dmg, int Stamina, int Enemy_HP, int Enemy_Dmg, int Enemy_
         {
             //system("cls");
             printf("\n                    Твоё             Противника\n");
-            printf("Здоровье             %3d                 %3d\n",HP, Enemy_HP);
-            printf("Урон                 %3d                 %3d\n",Dmg, Enemy_Dmg);
-            printf("Выносливость         %3d                 %3d\n",Stamina, Enemy_Stamina);
-            if ( HP <= 0) break;
+            printf("Здоровье             %3d                 %3d\n",*HP_S, Enemy_HP);
+            printf("Урон                 %3d                 %3d\n",*Dmg_S, Enemy_Dmg);
+            printf("Выносливость         %3d                 %3d\n",*Stamina_S, Enemy_Stamina);
+            if ( HP_S <= 0) break;
             printf("\n///////// 1 - АТАКА ///////// 2 - ПРОПУСТИТЬ ХОД ///////// 3 - СБЕЖАТЬ /////////");
             printf("/////////////////////////////// I - ИВЕНТАРЬ /////////////// M - КАРТА /////////\n");
             printf("\n\n\n\n\n\n\n\n\n\n\n\n\n");
@@ -410,7 +423,7 @@ int Battle(int HP, int Dmg, int Stamina, int Enemy_HP, int Enemy_Dmg, int Enemy_
             button = getch();
             system("cls");
 
-            if (Stamina == 0 && button == '1')
+            if (Stamina_S == 0 && button == '1')
             {
                 printf("У вас не достаточно выносливости, выберете другое действие\n");
                 while (button == '1')
@@ -420,13 +433,13 @@ int Battle(int HP, int Dmg, int Stamina, int Enemy_HP, int Enemy_Dmg, int Enemy_
             switch(button)
             {
                 case '1':
-                    Stamina -= 10;
-                    Enemy_HP -= Dmg;
-                    printf("   Вы ударили противника на %d урона\n", Dmg);
+                    *Stamina_S -= 10;
+                    Enemy_HP -= *Dmg_S;
+                    printf("   Вы ударили противника на %d урона\n", *Dmg_S);
                     if ( Enemy_Stamina > 0)
                     {
                         Enemy_Stamina -= 10;
-                        HP -= Enemy_Dmg;
+                        *HP_S -= Enemy_Dmg;
                         printf("   Враг прописал ответочку на %d урона\n", Enemy_Dmg);
                     }
                     else
@@ -438,12 +451,12 @@ int Battle(int HP, int Dmg, int Stamina, int Enemy_HP, int Enemy_Dmg, int Enemy_
 
                     break;
                 case '2':
-                    Stamina += 20;
+                    *Stamina_S += 20;
                     printf("\n\n   Вы отдыхаете, и восстанавливаете 20 выносливости\n");
                     if ( Enemy_Stamina > 0 )
                     {
                         Enemy_Stamina -= 10;
-                        HP -= Enemy_Dmg;
+                        *HP_S -= Enemy_Dmg;
                         printf("   Враг бьет тебя, пока ты спишь на %d урона\n", Enemy_Dmg);
                     }
                     else
@@ -467,12 +480,13 @@ int Battle(int HP, int Dmg, int Stamina, int Enemy_HP, int Enemy_Dmg, int Enemy_
                     break;
             }
             if ( exit == 1 )  break;
+            else if(*HP_S <= 0) break;
         }
-        if ( HP > 0 && exit != 1 )
+        if ( *HP_S > 0 && exit != 1 )
         printf("\n////////////////////////////// ПОБЕДА /////////////////////////////////////\n");
-        else if ( HP < 0 && exit != 1 )
+        else if ( *HP_S < 0 && exit != 1 )
         {
-        printf("\n//////////////////////////// LOL U DIED ///////////////////////////////////\n");
+        return 0;
         exit = 1;
         }
         else if ( exit == 1 )
