@@ -196,7 +196,7 @@ int Menu(){
 void Map(){
     char map_but;
     int HP, Dmg, Stamina, Potion;
-    int choose = 0;
+    int choose = 0, but_pos;
     system("cls");
     printf("/***********************************Поехали************************************\\ \n");
     printf("    Выбери своего персонажа:\n");
@@ -225,25 +225,78 @@ void Map(){
     do{
         printf("                           ВЫ НАХОДИТЕСЬ В ГОРОДЕ                   \n");
         printf("Вы можете отправиться:\n\n");
-        printf("1)Магазин\n");
-        printf("2)Трактир\n");
-        printf("3)Сражаться с монстрами\n");
-        printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-        map_but = getch();
+        printf(" - Магазин  <--\n");
+        printf(" - Трактир\n");
+        printf(" - Сражаться с монстрами\n\n\n\n");
+        printf(" - Выйти из игры\n");
+        printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+
+        while(map_but != 'e'){
+            map_but = getch();
+            if(map_but == 's')
+                but_pos += 1;
+            else if(map_but == 'w')
+                but_pos -= 1;
+
+            if(but_pos < 1)
+                but_pos = 4;
+            else if(but_pos > 4)
+                but_pos = 1;
+
+            switch(but_pos){
+                case 1:
+                    system("cls");
+                    printf("                           ВЫ НАХОДИТЕСЬ В ГОРОДЕ                   \n");
+                    printf("Вы можете отправиться:\n\n");
+                    printf(" - Магазин  <--\n");
+                    printf(" - Трактир \n");
+                    printf(" - Сражаться с монстрами\n\n\n\n");
+                    printf(" - Выйти из игры\n");
+                    break;
+                case 2:
+                    system("cls");
+                    printf("                           ВЫ НАХОДИТЕСЬ В ГОРОДЕ                   \n");
+                    printf("Вы можете отправиться:\n\n");
+                    printf(" - Магазин \n");
+                    printf(" - Трактир  <--\n");
+                    printf(" - Сражаться с монстрами\n\n\n\n");
+                    printf(" - Выйти из игры\n");
+                    break;
+                case 3:
+                    system("cls");
+                    printf("                           ВЫ НАХОДИТЕСЬ В ГОРОДЕ                   \n");
+                    printf("Вы можете отправиться:\n\n");
+                    printf(" - Магазин \n");
+                    printf(" - Трактир\n");
+                    printf(" - Сражаться с монстрами  <--\n\n\n\n");
+                    printf(" - Выйти из игры\n");
+                    break;
+                case 4:
+                    system("cls");
+                    printf("                           ВЫ НАХОДИТЕСЬ В ГОРОДЕ                   \n");
+                    printf("Вы можете отправиться:\n\n");
+                    printf(" - Магазин \n");
+                    printf(" - Трактир\n");
+                    printf(" - Сражаться с монстрами\n\n\n\n");
+                    printf(" - Выйти из игры  <--\n");
+                    break;
+            }
+            map_but = getch();
+        }
 
 
 
-        switch(map_but){
-            case '1':
+        switch(but_pos){
+            case 1:
                 //Shop(); //Покупка вещей
                 break;
-            case '2':
+            case 2:
                //Trakt();  //Сделать трактир с азартными играми
                 break;
-            case '3':
+            case 3:
                 Start(HP,Dmg, Stamina,Potion);
                 break;
-            case '':
+            case 4:
                 return;
                 break;
         }

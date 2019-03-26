@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1553519150 source:c:\users\admin\desktop\projects\battle\main.c
+1553596920 source:c:\users\admin\desktop\projects\battle\main.c
 	<stdio.h>
 	<stdlib.h>
 	<locale.h>
