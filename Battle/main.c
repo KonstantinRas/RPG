@@ -5,10 +5,11 @@
 
 void Start();
 int Hero_choose();
-void Battle(int HP, int Dmg, int Stamina, int Enemy_HP, int Enemy_Dmg, int Enemy_Stamina);
+int Battle(int HP, int Dmg, int Stamina, int Enemy_HP, int Enemy_Dmg, int Enemy_Stamina);
 int Menu();
 void Map();
 int Inventory();
+int PocketMap();
 
 int main()
 {
@@ -221,68 +222,76 @@ void Map(){
             break;
     }
 
-    printf("                           ВЫ НАХОДИТЕСЬ В ГОРОДЕ                   \n");
-    printf("Вы можете отправиться:\n\n");
-    printf("1)Магазин\n");
-    printf("2)Трактир\n");
-    printf("3)Сражаться с монстрами\n");
-    printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-    map_but = getch();
+    do{
+        printf("                           ВЫ НАХОДИТЕСЬ В ГОРОДЕ                   \n");
+        printf("Вы можете отправиться:\n\n");
+        printf("1)Магазин\n");
+        printf("2)Трактир\n");
+        printf("3)Сражаться с монстрами\n");
+        printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+        map_but = getch();
 
 
 
-    switch(map_but){
-        case '1':
-            //Shop(); //Покупка вещей
-            break;
-        case '2':
-           //Trakt();  //Сделать трактир с азартными играми
-            break;
-        case '3':
-            Start(HP,Dmg, Stamina,Potion);
-            break;
-    }
+        switch(map_but){
+            case '1':
+                //Shop(); //Покупка вещей
+                break;
+            case '2':
+               //Trakt();  //Сделать трактир с азартными играми
+                break;
+            case '3':
+                Start(HP,Dmg, Stamina,Potion);
+                break;
+            case '':
+                return;
+                break;
+        }
+    }while(map_but != '');
 }
 /////////////////////////////////////////////////////////////////////////////////////////
 void Start(int HP, int Dmg, int Stamina, int Potion)
 {
-    int Enemy_HP, Enemy_Dmg, Enemy_Stamina;
+    int Enemy_HP, Enemy_Dmg, Enemy_Stamina, back;
 
 
     srand(time(0));
     int Enemy_Type;
     do
     {
-    Enemy_Type = 1 + rand() % 101;
+        Enemy_Type = 1 + rand() % 101;
 
-    ///Слизень///
-    if ( Enemy_Type >= 1 && Enemy_Type <= 50 )
-    {
-        Enemy_HP = 50,
-        Enemy_Dmg = 5,
-        Enemy_Stamina = 40;
-    }
-    ///Ебака///
-    if ( Enemy_Type >= 51 && Enemy_Type <= 85 )
-    {
-        Enemy_HP = 80,
-        Enemy_Dmg = 10,
-        Enemy_Stamina = 60;
-    }
-    ///Дракон///
-    if ( Enemy_Type >= 86 && Enemy_Type <= 100 )
-    {
-        Enemy_HP = 140,
-        Enemy_Dmg = 30,
-        Enemy_Stamina = 10;
-    }
+        ///Слизень///
+        if ( Enemy_Type >= 1 && Enemy_Type <= 50 )
+        {
+            Enemy_HP = 50,
+            Enemy_Dmg = 5,
+            Enemy_Stamina = 40;
+        }
+        ///Ебака///
+        if ( Enemy_Type >= 51 && Enemy_Type <= 85 )
+        {
+            Enemy_HP = 80,
+            Enemy_Dmg = 10,
+            Enemy_Stamina = 60;
+        }
+        ///Дракон///
+        if ( Enemy_Type >= 86 && Enemy_Type <= 100 )
+        {
+            Enemy_HP = 140,
+            Enemy_Dmg = 30,
+            Enemy_Stamina = 10;
+        }
 
-    int *hp = HP,
-    *dmg = Dmg,
-    *stam = Stamina;
+        int *hp = HP,
+        *dmg = Dmg,
+        *stam = Stamina;
 
 
-        Battle(HP, Dmg, Stamina, Enemy_HP, Enemy_Dmg, Enemy_Stamina);
+        back = Battle(HP, Dmg, Stamina, Enemy_HP, Enemy_Dmg, Enemy_Stamina);
+        if(back == 1)
+            break;
+
     }while( HP > 0);
 }
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -322,9 +331,9 @@ int Hero_choose(){
     return Potion_chance;
 }**/
 /////////////////////////////////////////////////////////////////////////////////////////
-void Battle(int HP, int Dmg, int Stamina, int Enemy_HP, int Enemy_Dmg, int Enemy_Stamina)
+int Battle(int HP, int Dmg, int Stamina, int Enemy_HP, int Enemy_Dmg, int Enemy_Stamina)
 {
-    int Potion, exit;
+    int Potion, exit, mp;
     exit = 0;
     char button;
     //system("cls");
@@ -339,7 +348,7 @@ void Battle(int HP, int Dmg, int Stamina, int Enemy_HP, int Enemy_Dmg, int Enemy
             printf("Выносливость         %3d                 %3d\n",Stamina, Enemy_Stamina);
             if ( HP <= 0) break;
             printf("\n///////// 1 - АТАКА ///////// 2 - ПРОПУСТИТЬ ХОД ///////// 3 - СБЕЖАТЬ /////////");
-            printf("/////////////////////////////// I - ИВЕНТАРЬ ///////////////////////////////////\n");
+            printf("/////////////////////////////// I - ИВЕНТАРЬ /////////////// M - КАРТА /////////\n");
             printf("\n\n\n\n\n\n\n\n\n\n\n\n\n");
             printf("   ");
             button = getch();
@@ -394,6 +403,11 @@ void Battle(int HP, int Dmg, int Stamina, int Enemy_HP, int Enemy_Dmg, int Enemy
                 case 'i':
                     Inventory();
                     printf("\n\n");
+                    break;
+                case 'm':
+                    mp = PocketMap();
+                    if(mp == 1)
+                        return 1;
                     break;
             }
             if ( exit == 1 )  break;
@@ -456,5 +470,42 @@ int Inventory(){
                 break;
         }
     }
+}
+
+int PocketMap(){
+    char map_but;
+    int but_pos = 1;
+    printf("                                     КАРТА\n\n");
+                printf("- Город  <--\n");
+                printf("- Выйти\n");
+    while(map_but != 'e'){
+        map_but = getch();
+        if(map_but == 's')
+            but_pos += 1;
+        else if(map_but == 'w')
+            but_pos -= 1;
+
+        if(but_pos < 1)
+            but_pos = 2;
+        else if(but_pos > 2)
+            but_pos = 1;
+
+        switch(but_pos){
+            case 1:
+                system("cls");
+                printf("                                     КАРТА\n\n");
+                printf("- Город  <--\n");
+                printf("- Выйти\n\n\n");
+                break;
+            case 2:
+                system("cls");
+                printf("                                     КАРТА\n\n");
+                printf("- Город \n");
+                printf("- Выйти <--\n\n\n");
+                break;
+        }
+    }
+    if(but_pos == 1)
+        return 1;
 }
 
