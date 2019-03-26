@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <locale.h>
 #include <time.h>
+///Hyc yosi
 
 void Start();
 int Hero_choose();
