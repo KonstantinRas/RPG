@@ -194,32 +194,7 @@ int Menu(){
 /////////////////////////////////////////////////////////////////////////////////////////
 void Map(){
     char map_but;
-    system("cls");
-    printf("                           ВЫ НАХОДИТЕСЬ В ГОРОДЕ                   \n");
-    printf("Вы можете отправиться:\n\n");
-    printf("1)Магазин\n");
-    printf("2)Трактир\n");
-    printf("3)Сражаться с монстрами\n");
-    map_but = getch();
-
-
-    switch(map_but){
-        case '1':
-            //Shop(); //Покупка вещей
-            break;
-        case '2':
-           //Trakt();  //Сделать трактир с азартными играми
-            break;
-        case '3':
-            Start();
-            break;
-    }
-}
-/////////////////////////////////////////////////////////////////////////////////////////
-void Start()
-{
     int HP, Dmg, Stamina, Potion;
-    int Enemy_HP, Enemy_Dmg, Enemy_Stamina;
     int choose = 0;
     system("cls");
     printf("/***********************************Поехали************************************\\ \n");
@@ -245,6 +220,35 @@ void Start()
             Stamina = 200;
             break;
     }
+
+    printf("                           ВЫ НАХОДИТЕСЬ В ГОРОДЕ                   \n");
+    printf("Вы можете отправиться:\n\n");
+    printf("1)Магазин\n");
+    printf("2)Трактир\n");
+    printf("3)Сражаться с монстрами\n");
+    printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+    map_but = getch();
+
+
+
+    switch(map_but){
+        case '1':
+            //Shop(); //Покупка вещей
+            break;
+        case '2':
+           //Trakt();  //Сделать трактир с азартными играми
+            break;
+        case '3':
+            Start(HP,Dmg, Stamina,Potion);
+            break;
+    }
+}
+/////////////////////////////////////////////////////////////////////////////////////////
+void Start(int HP, int Dmg, int Stamina, int Potion)
+{
+    int Enemy_HP, Enemy_Dmg, Enemy_Stamina;
+
+
     srand(time(0));
     int Enemy_Type;
     do
@@ -272,6 +276,10 @@ void Start()
         Enemy_Dmg = 30,
         Enemy_Stamina = 10;
     }
+
+    int *hp = HP,
+    *dmg = Dmg,
+    *stam = Stamina;
 
 
         Battle(HP, Dmg, Stamina, Enemy_HP, Enemy_Dmg, Enemy_Stamina);
